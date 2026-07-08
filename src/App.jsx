@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import LogoBrand from "./components/LogoBrand.jsx";
 
 const C = {
   blue: "#0088FF",
@@ -309,6 +310,21 @@ export default function App() {
 
       <Particles />
 
+      <header style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 10,
+        padding: "14px 24px", display: "flex", alignItems: "center", justifyContent: "center",
+        background: "rgba(6,6,16,0.72)", backdropFilter: "blur(12px)",
+        borderBottom: "1px solid rgba(0,136,255,0.1)",
+      }}>
+        <a href="#" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+          style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none" }}>
+          <LogoBrand size={72} showText={false} showSlogan={false} animate={false} />
+          <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.18em", color: C.text, textTransform: "uppercase" }}>
+            <span style={{ color: "#00f2fe" }}>JDG</span> Automations
+          </span>
+        </a>
+      </header>
+
       <section style={{
         minHeight: "100vh", display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center", textAlign: "center",
@@ -320,6 +336,9 @@ export default function App() {
           animation: "nfPulse 5s ease-in-out infinite", zIndex: 0,
         }} />
         <div className="nf-fadeUp" style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ marginBottom: 28 }}>
+            <LogoBrand size={200} />
+          </div>
           <div style={{ fontSize: 13, letterSpacing: 5, color: C.blue, fontWeight: 600, marginBottom: 20, textTransform: "uppercase" }}>
             AI Automation Agency
           </div>
