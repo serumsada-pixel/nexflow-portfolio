@@ -312,16 +312,13 @@ export default function App() {
 
       <header style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 10,
-        padding: "14px 24px", display: "flex", alignItems: "center", justifyContent: "center",
+        padding: "12px 24px", display: "flex", alignItems: "center", justifyContent: "center",
         background: "rgba(6,6,16,0.72)", backdropFilter: "blur(12px)",
         borderBottom: "1px solid rgba(0,136,255,0.1)",
       }}>
         <a href="#" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-          style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none" }}>
-          <LogoBrand size={72} showText={false} showSlogan={false} animate={false} />
-          <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.18em", color: C.text, textTransform: "uppercase" }}>
-            <span style={{ color: "#00f2fe" }}>JDG</span> Automations
-          </span>
+          style={{ textDecoration: "none" }}>
+          <LogoBrand size={88} showSlogan={false} animate={false} />
         </a>
       </header>
 
@@ -335,26 +332,11 @@ export default function App() {
           background: "radial-gradient(circle, rgba(0,136,255,0.1), transparent 70%)",
           animation: "nfPulse 5s ease-in-out infinite", zIndex: 0,
         }} />
-        <div className="nf-fadeUp" style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ marginBottom: 28 }}>
-            <LogoBrand size={200} />
-          </div>
-          <div style={{ fontSize: 13, letterSpacing: 5, color: C.blue, fontWeight: 600, marginBottom: 20, textTransform: "uppercase" }}>
-            AI Automation Agency
-          </div>
-          <h1 style={{
-            fontSize: "clamp(40px, 10vw, 80px)", fontWeight: 900,
-            letterSpacing: -2, lineHeight: 1,
-            background: `linear-gradient(135deg, #ffffff 30%, ${C.blue})`,
-            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            marginBottom: 12,
-          }}>NexFlow AI</h1>
-          <p style={{ fontSize: 15, color: C.muted, marginBottom: 8, fontWeight: 400 }}>
-            por <span style={{ color: C.text, fontWeight: 600 }}>Juan David Guerrero</span>
-          </p>
-          <div style={{ width: 40, height: 2, background: C.blue, borderRadius: 4, margin: "0 auto 24px", opacity: 0.5 }} />
-          <p style={{ fontSize: 16, color: C.muted, maxWidth: 500, lineHeight: 1.75, marginBottom: 40, marginLeft: "auto", marginRight: "auto" }}>
-            Transformo operaciones empresariales con inteligencia artificial, automatización inteligente y desarrollo web de alto impacto.
+        <div className="nf-fadeUp" style={{ position: "relative", zIndex: 1, paddingTop: 60 }}>
+          <LogoBrand size={240} />
+          <div style={{ width: 50, height: 2, background: `linear-gradient(90deg, transparent, ${C.blue}, transparent)`, borderRadius: 4, margin: "32px auto", opacity: 0.6 }} />
+          <p style={{ fontSize: 17, color: C.muted, maxWidth: 520, lineHeight: 1.8, marginBottom: 40, marginLeft: "auto", marginRight: "auto" }}>
+            Automatización inteligente, desarrollo web e integración de IA para escalar operaciones con impacto real.
           </p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <a href="#servicios" onClick={scrollTo("servicios")} style={{
@@ -446,9 +428,7 @@ export default function App() {
             borderRadius: 14, backdropFilter: "blur(14px)",
           }}>
             <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.8 }}>
-              <strong style={{ color: C.text, fontSize: 17 }}>Juan David Guerrero</strong>
-              <span style={{ color: "rgba(255,255,255,0.25)", margin: "0 10px" }}>·</span>
-              <span style={{ color: C.blue }}>Founder, NexFlow AI</span>
+              <strong style={{ color: C.text, fontSize: 17, letterSpacing: "0.12em" }}>GUERRERO IA</strong>
               <br />
               🌐 Colombia · Operación 100% Remota
               <br />
@@ -467,7 +447,7 @@ export default function App() {
             </div>
           </div>
           <p style={{ fontSize: 11, color: "rgba(255,255,255,0.15)", marginTop: 48 }}>
-            © 2026 NexFlow AI — Powered by Artificial Intelligence
+            © 2026 GUERRERO IA — Powered by Artificial Intelligence
           </p>
         </div>
       </section>

@@ -1,37 +1,41 @@
 import { useId } from "react";
 
 const COLORS = {
-  bg: "#0b0f19",
   cyan: "#00f2fe",
   violet: "#7f00ff",
   blue: "#4facfe",
   text: "#f0f4ff",
   slogan: "#96a2b3",
+  dim: "rgba(0,242,254,0.18)",
 };
 
 /**
- * Isotipo "El Nodo Inteligente": fusión J+G como circuito de automatización.
- * 100% SVG vectorial, escalable y reutilizable en hero, navbar o loader.
+ * Marca personal — "El Nodo Inteligente" v2
+ * Monograma J+G dentro de una red hexagonal orbital (IA + workflows).
  */
 export default function LogoBrand({
   size = 200,
   showText = true,
   showSlogan = true,
-  brandName = "JDG AUTOMATIONS",
+  brandName = "GUERRERO IA",
   slogan = "Soluciones inteligentes, resultados reales",
   animate = true,
   style,
 }) {
   const uid = useId().replace(/:/g, "");
-  const gradId = `techGradient-${uid}`;
-  const glowId = `glow-${uid}`;
-  const iconH = size * 0.55;
-  const textSize = Math.max(14, size * 0.11);
-  const sloganSize = Math.max(10, textSize * 0.42);
+  const gradId = `jgGrad-${uid}`;
+  const glowId = `jgGlow-${uid}`;
+  const ringGradId = `ringGrad-${uid}`;
+  const iconSize = size * (showText ? 0.72 : 0.85);
+  const textSize = Math.max(15, size * 0.105);
+  const sloganSize = Math.max(10, textSize * 0.4);
+  const [wordA, wordB] = brandName.includes(" ")
+    ? brandName.split(" ")
+    : [brandName.slice(0, -2), brandName.slice(-2)];
 
   return (
     <div
-      className={animate ? "logo-brand logo-brand--animate" : "logo-brand"}
+      className={animate ? "jg-brand jg-brand--animate" : "jg-brand"}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -41,22 +45,27 @@ export default function LogoBrand({
       }}
     >
       <svg
-        width={size}
-        height={iconH}
-        viewBox="0 0 200 110"
+        width={iconSize}
+        height={iconSize}
+        viewBox="0 0 160 160"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
+        aria-label={brandName}
+        role="img"
       >
         <defs>
-          <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id={gradId} x1="20%" y1="0%" x2="80%" y2="100%">
             <stop offset="0%" stopColor={COLORS.cyan} />
-            <stop offset="55%" stopColor={COLORS.blue} />
+            <stop offset="50%" stopColor={COLORS.blue} />
             <stop offset="100%" stopColor={COLORS.violet} />
           </linearGradient>
-
-          <filter id={glowId} x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="3.5" result="blur" />
+          <linearGradient id={ringGradId} x1="0%" y1="50%" x2="100%" y2="50%">
+            <stop offset="0%" stopColor={COLORS.cyan} stopOpacity="0.1" />
+            <stop offset="50%" stopColor={COLORS.cyan} stopOpacity="0.55" />
+            <stop offset="100%" stopColor={COLORS.violet} stopOpacity="0.1" />
+          </linearGradient>
+          <filter id={glowId} x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
@@ -64,53 +73,114 @@ export default function LogoBrand({
           </filter>
         </defs>
 
-        {/* Circuito J → G: trazo continuo tipo loop de automatización */}
+        {/* Anillo orbital */}
+        <circle
+          className="jg-brand__orbit"
+          cx="80"
+          cy="80"
+          r="72"
+          stroke={`url(#${ringGradId})`}
+          strokeWidth="1.2"
+          strokeDasharray="6 10"
+          fill="none"
+        />
+
+        {/* Red hexagonal */}
+        <polygon
+          className="jg-brand__hex"
+          points="80,18 133.8,49 133.8,111 80,142 26.2,111 26.2,49"
+          stroke={COLORS.dim}
+          strokeWidth="1"
+          fill="rgba(0,242,254,0.03)"
+        />
+
+        {/* Conexiones al núcleo */}
+        {[
+          [80, 18], [133.8, 49], [133.8, 111], [80, 142], [26.2, 111], [26.2, 49],
+        ].map(([x, y], i) => (
+          <line
+            key={i}
+            className="jg-brand__spoke"
+            x1={x}
+            y1={y}
+            x2="80"
+            y2="80"
+            stroke={COLORS.dim}
+            strokeWidth="1"
+            style={{ animationDelay: `${i * 0.15}s` }}
+          />
+        ))}
+
+        {/* Monograma J+G fusionado — loop de automatización */}
         <path
-          className="logo-brand__circuit"
+          className="jg-brand__mono"
           d="
-            M 34 22
-            L 34 68
-            Q 34 92 58 92
-            L 76 92
-            L 76 58
-            Q 76 22 112 22
-            Q 162 22 162 58
-            Q 162 94 112 94
-            L 76 94
-            L 76 72
-            L 132 72
+            M 52 42
+            L 52 88
+            Q 52 108 68 108
+            Q 80 108 80 96
+            L 80 64
+            Q 80 42 100 42
+            Q 124 42 124 64
+            Q 124 86 100 86
+            L 80 86
+            L 80 74
+            L 108 74
           "
           stroke={`url(#${gradId})`}
-          strokeWidth="7"
+          strokeWidth="8"
           strokeLinecap="round"
           strokeLinejoin="round"
+          fill="none"
           filter={`url(#${glowId})`}
         />
 
-        {/* Nodos en vértices del flujo */}
-        <circle className="logo-brand__node logo-brand__node--a" cx="34" cy="22" r="4.5" fill={COLORS.cyan} />
-        <circle className="logo-brand__node logo-brand__node--b" cx="58" cy="92" r="4" fill={COLORS.blue} />
-        <circle className="logo-brand__node logo-brand__node--c" cx="162" cy="58" r="4.5" fill={COLORS.violet} />
-        <circle className="logo-brand__node logo-brand__node--d" cx="132" cy="72" r="3.5" fill={COLORS.cyan} />
+        {/* Núcleo inteligente */}
+        <circle className="jg-brand__core" cx="80" cy="80" r="6" fill={COLORS.cyan} filter={`url(#${glowId})`} />
+        <circle className="jg-brand__core-ring" cx="80" cy="80" r="11" stroke={COLORS.violet} strokeWidth="1.5" fill="none" opacity="0.6" />
+
+        {/* Nodos en vértices */}
+        {[
+          [52, 42, COLORS.cyan],
+          [68, 108, COLORS.blue],
+          [124, 64, COLORS.violet],
+          [108, 74, COLORS.cyan],
+        ].map(([x, y, fill], i) => (
+          <circle
+            key={i}
+            className="jg-brand__node"
+            cx={x}
+            cy={y}
+            r="4"
+            fill={fill}
+            style={{ animationDelay: `${0.4 + i * 0.2}s` }}
+          />
+        ))}
       </svg>
 
       {showText && (
-        <div style={{ textAlign: "center", marginTop: size * 0.06 }}>
+        <div style={{ textAlign: "center", marginTop: size * 0.05 }}>
           <div
             style={{
-              color: COLORS.text,
               fontFamily: "'Inter', system-ui, sans-serif",
-              fontWeight: 700,
+              fontWeight: 800,
               fontSize: textSize,
-              letterSpacing: "0.22em",
+              letterSpacing: "0.28em",
               textTransform: "uppercase",
-              lineHeight: 1.2,
+              lineHeight: 1.15,
             }}
           >
-            <span style={{ color: COLORS.cyan }}>{brandName.split(" ")[0]}</span>
-            {brandName.split(" ").length > 1 && (
-              <span> {brandName.split(" ").slice(1).join(" ")}</span>
-            )}
+            <span style={{ color: COLORS.text }}>{wordA}</span>
+            {" "}
+            <span
+              style={{
+                background: `linear-gradient(135deg, ${COLORS.cyan}, ${COLORS.violet})`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              {wordB}
+            </span>
           </div>
 
           {showSlogan && (
@@ -120,8 +190,8 @@ export default function LogoBrand({
                 fontFamily: "'Inter', system-ui, sans-serif",
                 fontWeight: 300,
                 fontSize: sloganSize,
-                letterSpacing: "0.06em",
-                marginTop: textSize * 0.35,
+                letterSpacing: "0.08em",
+                marginTop: textSize * 0.4,
                 fontStyle: "italic",
               }}
             >
@@ -132,31 +202,67 @@ export default function LogoBrand({
       )}
 
       <style>{`
-        .logo-brand__circuit {
-          stroke-dasharray: 420;
-          stroke-dashoffset: 420;
+        .jg-brand__orbit {
+          transform-origin: 80px 80px;
         }
-        .logo-brand--animate .logo-brand__circuit {
-          animation: logoCircuitDraw 2.2s ease-out forwards;
+        .jg-brand--animate .jg-brand__orbit {
+          animation: jgOrbit 18s linear infinite;
         }
-        .logo-brand__node {
+        .jg-brand__mono {
+          stroke-dasharray: 340;
+          stroke-dashoffset: 340;
+        }
+        .jg-brand--animate .jg-brand__mono {
+          animation: jgDraw 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .jg-brand__hex {
+          opacity: 0;
+        }
+        .jg-brand--animate .jg-brand__hex {
+          animation: jgFadeIn 1s ease 0.2s forwards;
+        }
+        .jg-brand__spoke {
+          opacity: 0;
+        }
+        .jg-brand--animate .jg-brand__spoke {
+          animation: jgFadeIn 0.6s ease forwards;
+        }
+        .jg-brand__core, .jg-brand__core-ring {
+          opacity: 0;
+          transform-origin: 80px 80px;
+        }
+        .jg-brand--animate .jg-brand__core {
+          animation: jgCoreIn 0.6s ease 1.6s forwards, jgPulse 2.8s ease-in-out 2.2s infinite;
+        }
+        .jg-brand--animate .jg-brand__core-ring {
+          animation: jgCoreIn 0.6s ease 1.8s forwards, jgRingPulse 2.8s ease-in-out 2.4s infinite;
+        }
+        .jg-brand__node {
           opacity: 0;
           transform-origin: center;
         }
-        .logo-brand--animate .logo-brand__node {
-          animation: logoNodeIn 0.5s ease forwards;
+        .jg-brand--animate .jg-brand__node {
+          animation: jgNodePop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
-        .logo-brand--animate .logo-brand__node--a { animation-delay: 0.3s; }
-        .logo-brand--animate .logo-brand__node--b { animation-delay: 0.7s; }
-        .logo-brand--animate .logo-brand__node--c { animation-delay: 1.1s; }
-        .logo-brand--animate .logo-brand__node--d { animation-delay: 1.4s; }
 
-        @keyframes logoCircuitDraw {
-          to { stroke-dashoffset: 0; }
-        }
-        @keyframes logoNodeIn {
-          from { opacity: 0; transform: scale(0.4); }
+        @keyframes jgOrbit { to { transform: rotate(360deg); } }
+        @keyframes jgDraw { to { stroke-dashoffset: 0; } }
+        @keyframes jgFadeIn { to { opacity: 1; } }
+        @keyframes jgNodePop {
+          from { opacity: 0; transform: scale(0.2); }
           to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes jgCoreIn {
+          from { opacity: 0; transform: scale(0.3); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes jgPulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.55; }
+        }
+        @keyframes jgRingPulse {
+          0%, 100% { opacity: 0.6; transform: scale(1); }
+          50% { opacity: 0.25; transform: scale(1.18); }
         }
       `}</style>
     </div>
