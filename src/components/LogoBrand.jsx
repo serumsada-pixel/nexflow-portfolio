@@ -5,7 +5,6 @@ const COLORS = {
   violet: "#7f00ff",
   blue: "#4facfe",
   text: "#f0f4ff",
-  slogan: "#96a2b3",
   dim: "rgba(0,242,254,0.18)",
 };
 
@@ -16,9 +15,7 @@ const COLORS = {
 export default function LogoBrand({
   size = 200,
   showText = true,
-  showSlogan = true,
-  brandName = "GUERRERO IA",
-  slogan = "Soluciones inteligentes, resultados reales",
+  brandName = "JDG AUTOMATIONS",
   animate = true,
   style,
 }) {
@@ -28,10 +25,8 @@ export default function LogoBrand({
   const ringGradId = `ringGrad-${uid}`;
   const iconSize = size * (showText ? 0.72 : 0.85);
   const textSize = Math.max(15, size * 0.105);
-  const sloganSize = Math.max(10, textSize * 0.4);
-  const [wordA, wordB] = brandName.includes(" ")
-    ? brandName.split(" ")
-    : [brandName.slice(0, -2), brandName.slice(-2)];
+  const [wordA, ...rest] = brandName.split(" ");
+  const wordB = rest.join(" ");
 
   return (
     <div
@@ -170,8 +165,6 @@ export default function LogoBrand({
               lineHeight: 1.15,
             }}
           >
-            <span style={{ color: COLORS.text }}>{wordA}</span>
-            {" "}
             <span
               style={{
                 background: `linear-gradient(135deg, ${COLORS.cyan}, ${COLORS.violet})`,
@@ -179,25 +172,10 @@ export default function LogoBrand({
                 WebkitTextFillColor: "transparent",
               }}
             >
-              {wordB}
+              {wordA}
             </span>
+            {wordB && <span style={{ color: COLORS.text }}> {wordB}</span>}
           </div>
-
-          {showSlogan && (
-            <p
-              style={{
-                color: COLORS.slogan,
-                fontFamily: "'Inter', system-ui, sans-serif",
-                fontWeight: 300,
-                fontSize: sloganSize,
-                letterSpacing: "0.08em",
-                marginTop: textSize * 0.4,
-                fontStyle: "italic",
-              }}
-            >
-              {slogan}
-            </p>
-          )}
         </div>
       )}
 

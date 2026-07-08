@@ -318,7 +318,7 @@ export default function App() {
       }}>
         <a href="#" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
           style={{ textDecoration: "none" }}>
-          <LogoBrand size={88} showSlogan={false} animate={false} />
+          <LogoBrand size={88} animate={false} />
         </a>
       </header>
 
@@ -428,7 +428,7 @@ export default function App() {
             borderRadius: 14, backdropFilter: "blur(14px)",
           }}>
             <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.8 }}>
-              <strong style={{ color: C.text, fontSize: 17, letterSpacing: "0.12em" }}>GUERRERO IA</strong>
+              <strong style={{ color: C.text, fontSize: 17 }}>Juan David Guerrero</strong>
               <br />
               🌐 Colombia · Operación 100% Remota
               <br />
@@ -447,7 +447,7 @@ export default function App() {
             </div>
           </div>
           <p style={{ fontSize: 11, color: "rgba(255,255,255,0.15)", marginTop: 48 }}>
-            © 2026 GUERRERO IA — Powered by Artificial Intelligence
+            © 2026 JDG AUTOMATIONS — Powered by Artificial Intelligence
           </p>
         </div>
       </section>
