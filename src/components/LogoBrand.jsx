@@ -5,11 +5,12 @@ const COLORS = {
   violet: "#7f00ff",
   blue: "#4facfe",
   text: "#f0f4ff",
-  dim: "rgba(0,242,254,0.18)",
+  dim: "rgba(0,242,254,0.22)",
 };
 
 /**
- * Marca personal — Monograma "JD" fusionado por un núcleo de energía IA.
+ * Marca personal — Monograma "JD" cercano, sobre una red neuronal
+ * tridimensional tipo telaraña que le da profundidad y un destello vivo.
  */
 export default function LogoBrand({
   size = 200,
@@ -21,7 +22,6 @@ export default function LogoBrand({
   const uid = useId().replace(/:/g, "");
   const gradId = `jgGrad-${uid}`;
   const glowId = `jgGlow-${uid}`;
-  const ringGradId = `ringGrad-${uid}`;
   const iconSize = size * (showCaption ? 0.72 : 0.9);
   const textSize = Math.max(14, size * 0.09);
 
@@ -45,11 +45,6 @@ export default function LogoBrand({
             <stop offset="50%" stopColor={COLORS.blue} />
             <stop offset="100%" stopColor={COLORS.violet} />
           </linearGradient>
-          <linearGradient id={ringGradId} x1="0%" y1="50%" x2="100%" y2="50%">
-            <stop offset="0%" stopColor={COLORS.cyan} stopOpacity="0.1" />
-            <stop offset="50%" stopColor={COLORS.cyan} stopOpacity="0.55" />
-            <stop offset="100%" stopColor={COLORS.violet} stopOpacity="0.1" />
-          </linearGradient>
           <filter id={glowId} x="-60%" y="-60%" width="220%" height="220%">
             <feGaussianBlur stdDeviation="4" result="blur" />
             <feMerge>
@@ -59,29 +54,31 @@ export default function LogoBrand({
           </filter>
         </defs>
 
-        {/* Anillo orbital */}
-        <circle
-          className="jg-brand__orbit"
-          cx="80"
-          cy="80"
-          r="72"
-          stroke={`url(#${ringGradId})`}
-          strokeWidth="1.2"
-          strokeDasharray="6 10"
-          fill="none"
-        />
+        {/* Red neuronal 3D tipo telaraña — el "cerebro" detras del monograma */}
+        <g className="jg-brand__web">
+          <circle cx="80" cy="80" r="58" stroke={COLORS.dim} strokeWidth="1" fill="none" />
+          <ellipse cx="80" cy="80" rx="58" ry="22" stroke={COLORS.dim} strokeWidth="1" fill="none" />
+          <ellipse cx="80" cy="80" rx="58" ry="22" stroke="rgba(79,172,254,0.24)" strokeWidth="1" fill="none" transform="rotate(60 80 80)" />
+          <ellipse cx="80" cy="80" rx="58" ry="22" stroke="rgba(127,0,255,0.24)" strokeWidth="1" fill="none" transform="rotate(120 80 80)" />
+          {[
+            [138, 80], [97.9, 135.2], [33.1, 114.1], [33.1, 45.9], [97.9, 24.8],
+          ].map(([x, y], i) => (
+            <circle key={i} className="jg-brand__node" cx={x} cy={y} r="3" fill={i % 2 ? COLORS.violet : COLORS.cyan}
+              style={{ animationDelay: `${0.3 + i * 0.12}s` }} />
+          ))}
+        </g>
 
-        {/* Monograma J + D — fusionado por el nucleo IA */}
+        {/* Monograma J + D — cercanas, sin separador */}
         <path
           className="jg-brand__mono"
           d="
-            M 45 40
-            L 45 96
-            Q 45 114 29 114
-            Q 15 114 15 98
-            M 110 40
-            L 110 120
-            A 35 40 0 0 0 110 40
+            M 62 40
+            L 62 96
+            Q 62 114 46 114
+            Q 32 114 32 98
+            M 95 40
+            L 95 120
+            A 30 40 0 0 0 95 40
           "
           stroke={`url(#${gradId})`}
           strokeWidth="9"
@@ -91,27 +88,13 @@ export default function LogoBrand({
           filter={`url(#${glowId})`}
         />
 
-        {/* Núcleo inteligente — funde las dos iniciales */}
-        <circle className="jg-brand__core" cx="80" cy="80" r="7" fill={COLORS.cyan} filter={`url(#${glowId})`} />
-        <circle className="jg-brand__core-ring" cx="80" cy="80" r="13" stroke={COLORS.violet} strokeWidth="1.5" fill="none" opacity="0.6" />
-
-        {/* Nodos en los extremos de las letras */}
-        {[
-          [45, 40, COLORS.cyan],
-          [15, 98, COLORS.blue],
-          [110, 40, COLORS.violet],
-          [145, 80, COLORS.cyan],
-        ].map(([x, y, fill], i) => (
-          <circle
-            key={i}
-            className="jg-brand__node"
-            cx={x}
-            cy={y}
-            r="4"
-            fill={fill}
-            style={{ animationDelay: `${0.5 + i * 0.15}s` }}
-          />
-        ))}
+        {/* Destello — chispa de intuicion sobre la red */}
+        <path
+          className="jg-brand__sparkle"
+          d="M 128 25 Q 130 33 138 35 Q 130 37 128 45 Q 126 37 118 35 Q 126 33 128 25 Z"
+          fill={`url(#${gradId})`}
+          filter={`url(#${glowId})`}
+        />
       </svg>
 
       {showCaption && (
@@ -135,28 +118,25 @@ export default function LogoBrand({
       )}
 
       <style>{`
-        .jg-brand__orbit {
+        .jg-brand__web {
           transform-origin: 80px 80px;
         }
-        .jg-brand--animate .jg-brand__orbit {
-          animation: jgOrbit 18s linear infinite;
+        .jg-brand--animate .jg-brand__web {
+          animation: jgWebRotate 26s linear infinite, jgWebPulse 4s ease-in-out infinite;
         }
         .jg-brand__mono {
-          stroke-dasharray: 320;
-          stroke-dashoffset: 320;
+          stroke-dasharray: 310;
+          stroke-dashoffset: 310;
         }
         .jg-brand--animate .jg-brand__mono {
           animation: jgDraw 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
-        .jg-brand__core, .jg-brand__core-ring {
+        .jg-brand__sparkle {
           opacity: 0;
-          transform-origin: 80px 80px;
+          transform-origin: 128px 35px;
         }
-        .jg-brand--animate .jg-brand__core {
-          animation: jgCoreIn 0.6s ease 1.6s forwards, jgPulse 2.8s ease-in-out 2.2s infinite;
-        }
-        .jg-brand--animate .jg-brand__core-ring {
-          animation: jgCoreIn 0.6s ease 1.8s forwards, jgRingPulse 2.8s ease-in-out 2.4s infinite;
+        .jg-brand--animate .jg-brand__sparkle {
+          animation: jgSparkleIn 0.5s ease 2s forwards, jgSparkle 2.4s ease-in-out 2.4s infinite;
         }
         .jg-brand__node {
           opacity: 0;
@@ -166,23 +146,23 @@ export default function LogoBrand({
           animation: jgNodePop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        @keyframes jgOrbit { to { transform: rotate(360deg); } }
+        @keyframes jgWebRotate { to { transform: rotate(360deg); } }
+        @keyframes jgWebPulse {
+          0%, 100% { opacity: 0.9; }
+          50% { opacity: 0.55; }
+        }
         @keyframes jgDraw { to { stroke-dashoffset: 0; } }
+        @keyframes jgSparkleIn {
+          from { opacity: 0; transform: scale(0.3); }
+          to { opacity: 0.35; transform: scale(0.85); }
+        }
+        @keyframes jgSparkle {
+          0%, 100% { opacity: 0.35; transform: scale(0.85); }
+          50% { opacity: 1; transform: scale(1.15); }
+        }
         @keyframes jgNodePop {
           from { opacity: 0; transform: scale(0.2); }
           to { opacity: 1; transform: scale(1); }
-        }
-        @keyframes jgCoreIn {
-          from { opacity: 0; transform: scale(0.3); }
-          to { opacity: 1; transform: scale(1); }
-        }
-        @keyframes jgPulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.55; }
-        }
-        @keyframes jgRingPulse {
-          0%, 100% { opacity: 0.6; transform: scale(1); }
-          50% { opacity: 0.25; transform: scale(1.18); }
         }
       `}</style>
     </div>
