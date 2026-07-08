@@ -106,24 +106,21 @@ export default function LogoBrand({
           />
         ))}
 
-        {/* Monograma J+G fusionado — loop de automatización */}
+        {/* Monograma J+G — letras legibles unidas por el núcleo */}
         <path
           className="jg-brand__mono"
           d="
-            M 52 42
-            L 52 88
-            Q 52 108 68 108
-            Q 80 108 80 96
-            L 80 64
-            Q 80 42 100 42
-            Q 124 42 124 64
-            Q 124 86 100 86
-            L 80 86
-            L 80 74
-            L 108 74
+            M 58 38
+            L 58 96
+            Q 58 114 40 114
+            Q 27 114 27 98
+            M 126.9 61.9
+            A 28 28 0 1 0 126.9 94.1
+            L 100 94.1
+            L 100 78
           "
           stroke={`url(#${gradId})`}
-          strokeWidth="8"
+          strokeWidth="9"
           strokeLinecap="round"
           strokeLinejoin="round"
           fill="none"
@@ -134,12 +131,12 @@ export default function LogoBrand({
         <circle className="jg-brand__core" cx="80" cy="80" r="6" fill={COLORS.cyan} filter={`url(#${glowId})`} />
         <circle className="jg-brand__core-ring" cx="80" cy="80" r="11" stroke={COLORS.violet} strokeWidth="1.5" fill="none" opacity="0.6" />
 
-        {/* Nodos en vértices */}
+        {/* Nodos en vértices de las letras */}
         {[
-          [52, 42, COLORS.cyan],
-          [68, 108, COLORS.blue],
-          [124, 64, COLORS.violet],
-          [108, 74, COLORS.cyan],
+          [58, 38, COLORS.cyan],
+          [27, 98, COLORS.blue],
+          [126.9, 61.9, COLORS.violet],
+          [100, 78, COLORS.cyan],
         ].map(([x, y, fill], i) => (
           <circle
             key={i}
@@ -170,6 +167,7 @@ export default function LogoBrand({
                 background: `linear-gradient(135deg, ${COLORS.cyan}, ${COLORS.violet})`,
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
+                textShadow: `0 0 24px rgba(0,242,254,0.4)`,
               }}
             >
               {wordA}
@@ -187,8 +185,8 @@ export default function LogoBrand({
           animation: jgOrbit 18s linear infinite;
         }
         .jg-brand__mono {
-          stroke-dasharray: 340;
-          stroke-dashoffset: 340;
+          stroke-dasharray: 300;
+          stroke-dashoffset: 300;
         }
         .jg-brand--animate .jg-brand__mono {
           animation: jgDraw 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
