@@ -318,7 +318,7 @@ export default function App() {
       }}>
         <a href="#" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
           style={{ textDecoration: "none" }}>
-          <LogoBrand size={72} animate={false} />
+          <LogoBrand size={72} animate={false} showCaption={false} />
         </a>
       </header>
 
