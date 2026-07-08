@@ -269,6 +269,152 @@ function Counter({ target, suffix, label }) {
   );
 }
 
+function CaseFrame({ eyebrow, title, caption, chrome, children }) {
+  return (
+    <div className="cs-card nf-fadeUp">
+      <div className="cs-screen">
+        {chrome && (
+          <div className="cs-chrome">
+            <span className="cs-dot" style={{ background: "#ff5f57" }} />
+            <span className="cs-dot" style={{ background: "#ffbd2e" }} />
+            <span className="cs-dot" style={{ background: "#28c840" }} />
+            <span className="cs-chrome-label">{chrome}</span>
+          </div>
+        )}
+        {children}
+      </div>
+      <div className="cs-info">
+        <div className="cs-eyebrow">{eyebrow}</div>
+        <div className="cs-title">{title}</div>
+        <div className="cs-caption">{caption}</div>
+      </div>
+    </div>
+  );
+}
+
+function GreenLookCase() {
+  return (
+    <CaseFrame eyebrow="Integración IA" title="Green Look · WhatsApp IA" caption="Responde y agenda citas solo, en segundos.">
+      <video
+        className="cs-video"
+        src="/media/greenlook-chat.mp4"
+        poster="/media/greenlook-poster.jpg"
+        autoPlay muted loop playsInline
+      />
+    </CaseFrame>
+  );
+}
+
+function N8nCase() {
+  const nodes = ["Webhook", "Agente IA", "CRM", "WhatsApp"];
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setActive(a => (a + 1) % nodes.length), 1200);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <CaseFrame eyebrow="AI Workflows" title="n8n · Automatización" caption="Flujos que trabajan solos, sin código." chrome="flujo-agenda.json">
+      <div className="cs-n8n">
+        {nodes.map((n, i) => (
+          <div key={n} className="cs-n8n-row">
+            <div className={`cs-n8n-node ${i <= active ? "is-on" : ""}`}>
+              <span className="cs-n8n-dot" />{n}
+            </div>
+            {i < nodes.length - 1 && (
+              <div className={`cs-n8n-line ${i < active ? "is-on" : ""}`} />
+            )}
+          </div>
+        ))}
+      </div>
+    </CaseFrame>
+  );
+}
+
+function CodeEditorCase() {
+  const lines = [
+    { c: "#7f00ff", t: "export default function " },
+    { c: "#00f2fe", t: "App" },
+    { c: "#f0f4ff", t: "() {" },
+    { c: "#4facfe", t: "  const [data] = useAI(" },
+    { c: "#33BBFF", t: "'clientes'" },
+    { c: "#4facfe", t: ");" },
+    { c: "#f0f4ff", t: "" },
+    { c: "#7f00ff", t: "  return " },
+    { c: "#4facfe", t: "<Dashboard {...data} />" },
+    { c: "#f0f4ff", t: "}" },
+  ];
+  const [shown, setShown] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setShown(s => (s >= lines.length ? 0 : s + 1)), 420);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <CaseFrame eyebrow="Desarrollo Web" title="Stack a medida" caption="De la idea al deploy en producción." chrome="App.jsx">
+      <div className="cs-code">
+        {lines.slice(0, shown).map((l, i) => (
+          <div key={i} className="cs-code-line">
+            <span className="cs-code-num">{i + 1}</span>
+            <span style={{ color: l.c }}>{l.t || " "}</span>
+            {i === shown - 1 && <span className="cs-caret" />}
+          </div>
+        ))}
+      </div>
+    </CaseFrame>
+  );
+}
+
+function VideoEditorCase() {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setProgress(p => (p >= 100 ? 0 : p + 2.2)), 150);
+    return () => clearInterval(id);
+  }, []);
+  const done = progress >= 100;
+  return (
+    <CaseFrame eyebrow="Video con IA" title="Reels con IA" caption="Del guion al render, automatizado." chrome="reel-final.mp4">
+      <div className="cs-editor">
+        <div className="cs-editor-preview">
+          <span style={{ opacity: done ? 1 : 0.35 }}>{done ? "▶" : "◐"}</span>
+        </div>
+        <div className="cs-editor-tracks">
+          {[0, 1, 2].map(row => (
+            <div key={row} className="cs-editor-track">
+              {Array.from({ length: 10 }).map((_, i) => (
+                <span key={i} className="cs-editor-bar" style={{
+                  height: `${30 + Math.abs(Math.sin((i + row * 3) * 0.9)) * 60}%`,
+                  background: progress > (i * 10 + row * 3) ? C.blue : "rgba(122,139,168,0.22)",
+                }} />
+              ))}
+            </div>
+          ))}
+          <div className="cs-editor-playhead" style={{ left: `${progress}%` }} />
+        </div>
+        <div className="cs-editor-status">{done ? "Reel listo ✓" : `Renderizando… ${Math.min(100, Math.round(progress))}%`}</div>
+      </div>
+    </CaseFrame>
+  );
+}
+
+function CaseStudies() {
+  return (
+    <section style={{ padding: "20px 24px 60px", position: "relative", zIndex: 1 }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 40 }}>
+          <h2 style={{ fontSize: 30, fontWeight: 800, marginBottom: 10 }}>Resultados en Acción</h2>
+          <div style={{ width: 50, height: 3, background: C.blue, borderRadius: 4, margin: "0 auto 14px" }} />
+          <p style={{ color: C.muted, fontSize: 15 }}>Así trabaja cada servicio, en vivo</p>
+        </div>
+        <div className="cs-grid">
+          <GreenLookCase />
+          <N8nCase />
+          <CodeEditorCase />
+          <VideoEditorCase />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function App() {
   const scrollTo = id => e => {
     e.preventDefault();
@@ -305,6 +451,98 @@ export default function App() {
         .nf-services-grid > *{height:100%}
         @media (max-width:640px){
           .nf-services-grid{grid-template-columns:1fr}
+        }
+        .cs-grid{
+          display:grid;
+          grid-template-columns:repeat(4, 1fr);
+          gap:18px;
+          align-items:stretch;
+        }
+        .cs-card{
+          background:${C.glass}; border:1px solid ${C.border}; border-radius:16px;
+          backdrop-filter:blur(14px); overflow:hidden; position:relative;
+          display:flex; flex-direction:column;
+        }
+        .cs-screen{
+          width:100%; aspect-ratio:0.5625; background:#04060c;
+          position:relative; overflow:hidden;
+          display:flex; flex-direction:column;
+        }
+        .cs-video{ width:100%; height:100%; object-fit:cover; display:block; }
+        .cs-chrome{
+          display:flex; align-items:center; gap:5px; padding:9px 10px;
+          background:rgba(255,255,255,0.03); border-bottom:1px solid rgba(255,255,255,0.06);
+          flex-shrink:0;
+        }
+        .cs-dot{ width:6px; height:6px; border-radius:50%; opacity:0.8; }
+        .cs-chrome-label{
+          margin-left:6px; font-size:9.5px; color:${C.muted}; font-family:monospace;
+          overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+        }
+        .cs-info{ padding:14px 16px 18px; }
+        .cs-eyebrow{
+          font-size:10px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase;
+          color:${C.glow}; opacity:0.85; margin-bottom:5px;
+        }
+        .cs-title{ font-size:14.5px; font-weight:700; color:${C.text}; margin-bottom:4px; }
+        .cs-caption{ font-size:12px; color:${C.muted}; line-height:1.5; }
+
+        .cs-n8n{
+          flex:1; display:flex; flex-direction:column; justify-content:center;
+          gap:0; padding:14px 14px; background-image:radial-gradient(rgba(0,242,254,0.12) 1px, transparent 1px);
+          background-size:14px 14px;
+        }
+        .cs-n8n-row{ display:flex; flex-direction:column; align-items:flex-start; }
+        .cs-n8n-node{
+          display:flex; align-items:center; gap:7px; font-size:11px; font-weight:600;
+          color:${C.muted}; background:rgba(8,20,50,0.7); border:1px solid rgba(0,136,255,0.18);
+          border-radius:8px; padding:7px 11px; transition:color 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+        .cs-n8n-node.is-on{
+          color:${C.text}; border-color:rgba(0,242,254,0.5);
+          box-shadow:0 0 14px rgba(0,242,254,0.25);
+        }
+        .cs-n8n-dot{ width:6px; height:6px; border-radius:50%; background:rgba(122,139,168,0.4); flex-shrink:0; }
+        .cs-n8n-node.is-on .cs-n8n-dot{ background:#00f2fe; box-shadow:0 0 6px #00f2fe; }
+        .cs-n8n-line{
+          width:2px; height:20px; margin-left:18px;
+          background:linear-gradient(180deg, rgba(0,136,255,0.15), rgba(0,136,255,0.15));
+        }
+        .cs-n8n-line.is-on{ background:linear-gradient(180deg, #00f2fe, rgba(0,136,255,0.15)); }
+
+        .cs-code{
+          flex:1; padding:12px 12px; font-family:'Courier New',monospace; font-size:10.5px;
+          overflow:hidden;
+        }
+        .cs-code-line{ display:flex; gap:8px; line-height:1.7; white-space:pre; }
+        .cs-code-num{ color:rgba(122,139,168,0.4); flex-shrink:0; width:12px; text-align:right; }
+        .cs-caret{
+          display:inline-block; width:6px; height:11px; background:${C.glow};
+          margin-left:2px; animation:jgBlinkCaret 0.9s step-end infinite;
+        }
+
+        .cs-editor{ flex:1; display:flex; flex-direction:column; padding:10px 12px 12px; }
+        .cs-editor-preview{
+          flex:1; display:flex; align-items:center; justify-content:center;
+          font-size:26px; color:${C.blue}; background:rgba(0,136,255,0.05);
+          border-radius:8px; margin-bottom:8px;
+        }
+        .cs-editor-tracks{ display:flex; flex-direction:column; gap:4px; position:relative; }
+        .cs-editor-track{ display:flex; align-items:flex-end; gap:2px; height:16px; }
+        .cs-editor-bar{ flex:1; border-radius:1px; transition:background 0.2s; }
+        .cs-editor-playhead{
+          position:absolute; top:-2px; bottom:-2px; width:1.5px; background:${C.glow};
+          box-shadow:0 0 6px ${C.glow}; transition:left 0.15s linear;
+        }
+        .cs-editor-status{ margin-top:8px; font-size:10.5px; font-weight:600; color:${C.muted}; text-align:center; }
+
+        @keyframes jgBlinkCaret{ 50%{ opacity:0; } }
+
+        @media (max-width:900px){
+          .cs-grid{ grid-template-columns:repeat(2, 1fr); }
+        }
+        @media (max-width:520px){
+          .cs-grid{ grid-template-columns:1fr; }
         }
       `}</style>
 
@@ -365,6 +603,8 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      <CaseStudies />
 
       <section style={{ padding: "50px 24px", position: "relative", zIndex: 1 }}>
         <div style={{
